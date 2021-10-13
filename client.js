@@ -1,5 +1,6 @@
-// Firebase stuff
-import firebase from 'firebase/app'
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js";
+
 // web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAlURPzkZCiQDw71X4gL2Ja0mkrlwwF_lM",
@@ -11,26 +12,39 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const firebase = initializeApp(firebaseConfig);
+const firebase_auth = getAuth();
 
-signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
+// Since this script is declared a module, need to add event listener on this end instead of onclick
+document.getElementById('sign_in_button').addEventListener('click', function() {
+  var email = document.getElementById('inputEmail').value;
+  var password = document.getElementById('inputPassword').value;
+  
+  signInWithEmailAndPassword(firebase_auth, email, password).then((userCredential) => {
+    // Signed in
     const user = userCredential.user;
-    console.log("Successfully signed in!");
-  })
-  .catch((error) => {
+    console.log('[LOG] - SIGNED IN ' + user.email);
+  }).catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    console.log("[ERROR] Login Error - " + errorMessage);
+    console.log('[ERROR] - SIGN IN ERROR ' + error.message);
   });
+});
 
-createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    const user = userCredential.user;
-    console.log("Successfully created user!");
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log("[ERROR] Login Error - " + errorMessage);
-  });
+/*
+createUserWithEmailAndPassword(firebase_auth, email, password).then((userCredential) => {
+  // Signed in 
+  const user = userCredential.user;
+  // ...
+}).catch((error) => {
+  const errorCode = error.code;
+  const errorMessage = error.message;
+  // ..
+});
+
+signOut(auth).then(() => {
+  // Sign-out successful.
+}).catch((error) => {
+  // An error happened.
+});
+*/
