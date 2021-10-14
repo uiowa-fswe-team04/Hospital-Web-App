@@ -43,6 +43,9 @@ document.getElementById('sign_in_button').addEventListener('click', function() {
   }).catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    console.log('[ERROR] - SIGN IN ERROR ' + error.message);
+    if (errorCode == "auth/wrong-password"){
+      alert("Incorrect email and/or password");
+    }
+    console.log('[ERROR] - SIGN IN ERROR ' + errorMessage);
   });
 });

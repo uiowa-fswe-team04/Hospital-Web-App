@@ -35,7 +35,7 @@ document.getElementById('create_account_button').addEventListener('click', funct
   var password_confirm = document.getElementById('inputPasswordConfirm').value;
 
   if (password != password_confirm) {
-      alert("passwords must match");
+      alert("Passwords must match");
       return;
   }
   
@@ -46,6 +46,9 @@ document.getElementById('create_account_button').addEventListener('click', funct
   }).catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    console.log('[ERROR] - ACCOUNT CREATION ERROR ' + error.message);
+    if (errorCode == "auth/email-already-in-use"){
+        alert("That email is already in use");
+    }
+    console.log('[ERROR] - ACCOUNT CREATION ERROR ' + errorMessage);
   });
 });
