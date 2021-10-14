@@ -19,6 +19,8 @@ const firebase_auth = getAuth();
 const host = location.hostname;
 var createAccountUrl = 'http://' + host + '/create_account.html';
 document.getElementById("create_account_div").innerHTML = "<a href=\"" + createAccountUrl + "\">No account? Create one here!</a>";
+var forgotPasswordUrl = 'http://' + host + '/forgot_password.html';
+document.getElementById("forgot_password_div").innerHTML = "<a href=\"" + forgotPasswordUrl + "\">Forgot password?</a>";
 
 firebase_auth.onAuthStateChanged(function(user) {
   if (user) {
