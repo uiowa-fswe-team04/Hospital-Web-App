@@ -15,16 +15,13 @@ const firebaseConfig = {
 const firebase = initializeApp(firebaseConfig);
 const firebase_auth = getAuth();
 
-// Add link to create account based off current URL
-const host = location.hostname;
-var createAccountUrl = 'http://' + host + '/create_account.html';
-document.getElementById("create_account_div").innerHTML = "<a href=\"" + createAccountUrl + "\">No account? Create one here!</a>";
 
 firebase_auth.onAuthStateChanged(function(user) {
   if (user) {
     // User is signed in
     console.log('[LOG] - SIGNED IN AS ' + user.email);
     console.log('[LOG] - REDIRECTING TO LANDING PAGE');
+    var host = location.hostname;
     var url = 'http://' + host + '/landing_page.html';
     window.location.replace(url);
   }
@@ -32,17 +29,23 @@ firebase_auth.onAuthStateChanged(function(user) {
 
 
 // Since this script is declared a module, need to add event listener on this end instead of onclick
-document.getElementById('sign_in_button').addEventListener('click', function() {
+document.getElementById('create_account_button').addEventListener('click', function() {
   var email = document.getElementById('inputEmail').value;
-  var password = document.getElementById('inputPassword').value;
+  var password = document.getElementById('inputPasswordOrig').value;
+  var password_confirm = document.getElementById('inputPasswordConfirm').value;
+
+  if (password != password_confirm) {
+      alert("passwords must match");
+      return;
+  }
   
-  signInWithEmailAndPassword(firebase_auth, email, password).then((userCredential) => {
-    // Signed in
+  createUserWithEmailAndPassword(firebase_auth, email, password).then((userCredential) => {
+    // Signed in 
     const user = userCredential.user;
-    console.log('[LOG] - SIGN IN SUCCESSFUL');
+    console.log('[ERROR] - ACCOUNT CREATION SUCCESS ');
   }).catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    console.log('[ERROR] - SIGN IN ERROR ' + error.message);
+    console.log('[ERROR] - ACCOUNT CREATION ERROR ' + error.message);
   });
 });

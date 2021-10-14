@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <script type="module" src="client.js"></script>
+  <script type="module" src="create_account.js"></script>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,18 +19,14 @@
   <body class="text-center">
     <div class="form-signin">
       <img class="mb-4" src="./img/IOWA.png" alt="" width="72" height="72">
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <h1 class="h3 mb-3 font-weight-normal">Fill in account details</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+      <input type="email" id="inputEmail" class="form-control" placeholder="Email address">
       <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-      <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-      </div>
-      <button class="btn btn-lg btn-primary btn-block" id="sign_in_button">Sign in</button>
-      <div id="create_account_div"></div>
+      <input type="password" id="inputPasswordOrig" class="form-control" placeholder="Password">
+      <label for="inputPasswordConfirm" class="sr-only">Confirm Password</label>
+      <input type="password" id="inputPasswordConfirm" class="form-control" placeholder="Confirm Password">
+      <button class="btn btn-lg btn-primary btn-block" id="create_account_button">Create account</button>
     </div>
   </body>
 </html>
