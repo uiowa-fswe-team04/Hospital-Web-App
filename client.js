@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js";
 
 // web app's Firebase configuration
 const firebaseConfig = {
@@ -15,6 +15,19 @@ const firebaseConfig = {
 const firebase = initializeApp(firebaseConfig);
 const firebase_auth = getAuth();
 
+
+firebase_auth.onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in
+    console.log('[LOG] - SIGNED IN AS ' + user.email);
+    console.log('[LOG] - REDIRECTING TO LANDING PAGE');
+    var host = location.hostname;
+    var url = 'http://' + host + '/landing_page.html';
+    window.location.replace(url);
+  }
+});
+
+
 // Since this script is declared a module, need to add event listener on this end instead of onclick
 document.getElementById('sign_in_button').addEventListener('click', function() {
   var email = document.getElementById('inputEmail').value;
@@ -23,7 +36,7 @@ document.getElementById('sign_in_button').addEventListener('click', function() {
   signInWithEmailAndPassword(firebase_auth, email, password).then((userCredential) => {
     // Signed in
     const user = userCredential.user;
-    console.log('[LOG] - SIGNED IN ' + user.email);
+    console.log('[LOG] - SIGN IN SUCCESSFUL');
   }).catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
@@ -40,11 +53,5 @@ createUserWithEmailAndPassword(firebase_auth, email, password).then((userCredent
   const errorCode = error.code;
   const errorMessage = error.message;
   // ..
-});
-
-signOut(auth).then(() => {
-  // Sign-out successful.
-}).catch((error) => {
-  // An error happened.
 });
 */
