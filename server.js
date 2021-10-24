@@ -1,38 +1,20 @@
 const express = require("express");
 const app = express();
-const multer = require('multer');
-const admin = require('firebase-admin');
-const firebase = require('firebase/app');
-//const firebase_auth = require('firebase/auth');
 
-// parser for FormData POST
-const post_parse = multer();
+const { auth } = require('express-openid-connect');
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: 'f11613a3daf23e022c1ac3558373637dd76d2228ca0f4183c96999b9f709a9b2',
+  baseURL: 'http://localhost:80',
+  clientID: 'IHFTd11FGfuo4TqAF6KsEJGQam9SB0xu',
+  issuerBaseURL: 'https://dev-gv4ab17m.us.auth0.com'
+};
+app.use(auth(config)); // auth router attaches /login, /logout, and /callback routes to the baseURL
 
-app.use(express.static("./"));
+const { requiresAuth } = require('express-openid-connect');
 
-// firebase admin setup
-const serviceAccount = require('./private/fswe-team04-hospitalwebapp-firebase-adminsdk-6315l-8fa13f036a.json');
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
-const auth_admin = admin.auth();
-
-// firebase setup
-// web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyAlURPzkZCiQDw71X4gL2Ja0mkrlwwF_lM",
-    authDomain: "fswe-team04-hospitalwebapp.firebaseapp.com",
-    projectId: "fswe-team04-hospitalwebapp",
-    storageBucket: "fswe-team04-hospitalwebapp.appspot.com",
-    messagingSenderId: "230485224893",
-    appId: "1:230485224893:web:c3f3a8f35637c78b6036d4"
-  };
-  
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-// export firebase
-module.exports.firebase = firebase;
+//app.use(express.static("./"));
 
 // listen for requests
 const listener = app.listen(process.env.PORT || 80, () => {
@@ -40,35 +22,13 @@ const listener = app.listen(process.env.PORT || 80, () => {
 });
 
 app.get("/", function (request, response) {
-  response.sendFile(__dirname + '/index.html');
+  response.send(request.oidc.isAuthenticated() ? 'Logged In' : 'Logged Out');
 });
 
-app.post('/login', post_parse.none(), (req, res) => {
-    console.log("[LOG] RECEIVED POST - /login");
-    res.send("Attempting Login...");
+app.get('/profile', requiresAuth(), (request, response) => {
+  response.send(JSON.stringify(request.oidc.user));
 });
 
-
-/*
-signInWithEmailAndPassword(auth, email, password)
-.then((userCredential) => {
-    const user = userCredential.user;
-    console.log("Successfully signed in!");
-})
-.catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log("[ERROR] Login Error - " + errorMessage);
+app.get('/landing_page', requiresAuth(), (request, response) => {
+  response.sendFile(__dirname + '/landing_page.html');
 });
-
-createUserWithEmailAndPassword(auth, email, password)
-.then((userCredential) => {
-    const user = userCredential.user;
-    console.log("Successfully created user!");
-})
-.catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log("[ERROR] Login Error - " + errorMessage);
-});
-*/
