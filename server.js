@@ -14,7 +14,8 @@ app.use(auth(config)); // auth router attaches /login, /logout, and /callback ro
 
 const { requiresAuth } = require('express-openid-connect');
 
-//app.use(express.static("./"));
+app.use('/private', requiresAuth());
+app.use('/private', express.static(__dirname + "/private"));
 
 // listen for requests
 const listener = app.listen(process.env.PORT || 80, () => {
@@ -22,13 +23,16 @@ const listener = app.listen(process.env.PORT || 80, () => {
 });
 
 app.get("/", function (request, response) {
-  response.send(request.oidc.isAuthenticated() ? 'Logged In' : 'Logged Out');
+  if (request.oidc.isAuthenticated())
+  {
+    response.sendFile(__dirname + '/private/landing_page.html');
+  }
+  else
+  {
+    response.redirect('/login');
+  }
 });
 
 app.get('/profile', requiresAuth(), (request, response) => {
   response.send(JSON.stringify(request.oidc.user));
-});
-
-app.get('/landing_page', requiresAuth(), (request, response) => {
-  response.sendFile(__dirname + '/landing_page.html');
 });

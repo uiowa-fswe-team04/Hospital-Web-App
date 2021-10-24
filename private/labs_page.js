@@ -1,8 +1,3 @@
-// Since this script is declared a module, need to add event listener on this end instead of onclick
-document.getElementById('sign_out_button').addEventListener('click', function() {
-  // redirect to logout path
-});
-
 document.getElementById('home_bar').addEventListener('click', function(){
     window.location.replace("/landing_page.html")
 });
