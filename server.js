@@ -76,7 +76,8 @@ app.get("/", function (request, response) {
   {
 
     get_user_role(request.oidc.user["email"], function(err, user_role) {
-      if (user_role == []){
+      console.log(user_role);
+      if (user_role.length == 0){
         add_user_role(request.oidc.user["email"], "patient");
         user_role = "patient";
       } else {
@@ -126,7 +127,6 @@ function add_user_role(user_email, user_role)
 }
 async function get_user_role(user_email, callback)
 {
-  user_email = "test_user@test.com";
   let sql = "SELECT role FROM user_roles WHERE email = ?";
   let post = user_email;
   db.query(sql, post, (err, result) => {
