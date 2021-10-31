@@ -7,17 +7,17 @@ document.getElementById('sign_out_button').addEventListener('click', function() 
 });
 
 document.getElementById('home_bar').addEventListener('click', function(){
-    window.location.replace("private/patient/landing_page.html")
+    window.location.replace("private/doctor/landing_page.html")
 });
 
 document.getElementById('patient_bar').addEventListener('click', function(){
-  window.location.replace("private/patient/patients_page.html")
+  window.location.replace("private/doctor/patients_page.html")
 });
 
 document.getElementById('labs_bar').addEventListener('click', function(){
-  window.location.replace("private/patient/labs_page.html")
+  window.location.replace("private/doctor/labs_page.html")
 });
 
 document.getElementById('notification_bar').addEventListener('click', function(){
-  window.location.replace("private/patient/notifications_page.html")
+  window.location.replace("private/doctor/notifications_page.html")
 });
