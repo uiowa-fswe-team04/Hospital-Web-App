@@ -85,11 +85,11 @@ app.get("/", function (request, response) {
       }
   
       if (user_role == "practitioner") {
-        response.sendFile(__dirname + '/private/doctor/landing_page.html');
+        response.redirect("/landing_doctor");
       } else if (user_role == "admin") {
-        response.sendFile(__dirname + '/private/admin/landing_page.html');
+        response.redirect("/landing_admin");
       } else if (user_role == "patient") {
-        response.sendFile(__dirname + '/private/patient/landing_page.html');
+        response.redirect("/landing_patient");
       } else {
         response.redirect('/logout');
       }
@@ -102,8 +102,80 @@ app.get("/", function (request, response) {
   }
 });
 
-app.get('/profile', requiresAuth(), (request, response) => {
-  response.send(JSON.stringify(request.oidc.user));
+app.get("/landing_doctor", function (request, response) {
+  if (request.oidc.isAuthenticated())
+  {
+    get_user_role(request.oidc.user["email"], function(err, user_role) {
+      if (user_role.length == 0){
+        response.send("ACCESS DENIED");
+      }
+      else {
+        user_role = user_role[0].role;
+      }
+  
+      if (user_role == "practitioner") {
+        response.sendFile(__dirname + '/private/doctor/landing_page.html');
+      }
+      else
+      {
+        response.send("ACCESS DENIED");
+      }
+    });
+  }
+  else
+  {
+    response.send("ACCESS DENIED");
+  }
+});
+app.get("/landing_admin", function (request, response) {
+  if (request.oidc.isAuthenticated())
+  {
+    get_user_role(request.oidc.user["email"], function(err, user_role) {
+      if (user_role.length == 0){
+        response.send("ACCESS DENIED");
+      }
+      else {
+        user_role = user_role[0].role;
+      }
+  
+      if (user_role == "admin") {
+        response.sendFile(__dirname + '/private/admin/landing_page.html');
+      }
+      else
+      {
+        response.send("ACCESS DENIED");
+      }
+    });
+  }
+  else
+  {
+    response.send("ACCESS DENIED");
+  }
+});
+app.get("/landing_patient", function (request, response) {
+  if (request.oidc.isAuthenticated())
+  {
+    get_user_role(request.oidc.user["email"], function(err, user_role) {
+      if (user_role.length == 0){
+        response.send("ACCESS DENIED");
+      }
+      else {
+        user_role = user_role[0].role;
+      }
+  
+      if (user_role == "patient") {
+        response.sendFile(__dirname + '/private/patient/landing_page.html');
+      }
+      else
+      {
+        response.send("ACCESS DENIED");
+      }
+    });
+  }
+  else
+  {
+    response.send("ACCESS DENIED");
+  }
 });
 
 // Create roles table
