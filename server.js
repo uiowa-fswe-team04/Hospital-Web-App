@@ -117,7 +117,7 @@ app.get('/private/admin/*', function (request, response) {
   
       if (user_role == "admin") {
         console.log("sending protected file " + request.url);
-        response.sendFile(__dirname + "/private/admin" + request.url);
+        response.sendFile(__dirname + request.url);
       }
       else
       {
@@ -145,7 +145,7 @@ app.get('/private/doctor/*', function (request, response) {
   
       if (user_role == "practitioner") {
         console.log("sending protected file " + request.url);
-        response.sendFile(__dirname + "/private/doctor" + request.url);
+        response.sendFile(__dirname + request.url);
       }
       else
       {
@@ -197,7 +197,6 @@ app.get('/createuserroletable', (req, res) => {
     res.send("Roles table created!");
   });
 });
-
 function add_user_role(user_email, user_role)
 {
   let post = {email: user_email, role: user_role}
@@ -215,8 +214,45 @@ async function get_user_role(user_email, callback)
     if (err) throw err;
     callback (null, result);
   });
-  
 }
+// get all users with specified role
+async function get_users(user_role, callback)
+{
+  let sql = "SELECT email FROM user_roles WHERE role = ?";
+  let post = user_role;
+  db.query(sql, post, (err, result) => {
+    if (err) throw err;
+    callback (null, result);
+  });
+}
+
+
+// Create doctor in db
+app.get('/create_doctor_user', (req, res) => {
+  let user_email = req.query.email;
+  let user_password = req.query.password;
+  console.log(req.query.email);
+  add_user_role(user_email, "doctor");
+  res.send(200);
+});
+// Get all doctor accounts in db
+app.get('/get_doctor_users', (req, res) => {
+  get_users("doctor", function(err, user_emails) {
+    console.log(user_emails);
+    res.send(user_emails);
+  });
+});
+// Delete specified doctor account in db
+app.get('/del_doctor_users', (req, res) => {
+  let user_email = req.query.email;
+  let sql = "DELETE FROM user_roles WHERE email = ?";
+  let post = user_email;
+  db.query(sql, post, (err) => {
+    if (err) throw err;
+    res.send("200")
+  });
+});
+
 
 // Create patients table
 app.get('/createpatienttable', (req, res) => {

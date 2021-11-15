@@ -13,11 +13,3 @@ document.getElementById('home_bar').addEventListener('click', function(){
 document.getElementById('doctor_bar').addEventListener('click', function(){
   window.location.href =("/private/admin/doctors_page.html")
 });
-
-document.getElementById('labs_bar').addEventListener('click', function(){
-  window.location.href =("/private/admin/labs_page.html")
-});
-
-document.getElementById('notification_bar').addEventListener('click', function(){
-  window.location.href =("/private/admin/notifications_page.html")
-});
