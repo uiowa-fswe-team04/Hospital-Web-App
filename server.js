@@ -249,7 +249,7 @@ app.get('/del_doctor_users', (req, res) => {
   let post = user_email;
   db.query(sql, post, (err) => {
     if (err) throw err;
-    res.send("200")
+    res.send(200)
   });
 });
 

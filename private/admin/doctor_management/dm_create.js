@@ -9,5 +9,19 @@ document.getElementById('create_account_button').addEventListener('click', funct
         return;
     }
     
-    //
+    const XML_req_hunt = new XMLHttpRequest();
+    // successful data submission
+    XML_req_hunt.addEventListener('load', function( event ) {
+        alert('Account created');
+        window.location.replace('http://' + host);
+    });
+    // error
+    XML_req_hunt.addEventListener(' error', function( event ) {
+        alert('Something went wrong. Account not created');
+    });
+    // set up POST request
+    var host = location.hostname;
+    var url = 'http://' + host + '/create_doctor_user?email=' + email;
+    XML_req_hunt.open('GET', url);
+    XML_req_hunt.send(null);
 });  
