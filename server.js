@@ -215,3 +215,25 @@ async function get_user_role(user_email, callback)
   });
   
 }
+
+// Create patients table
+app.get('/createpatienttable', (req, res) => {
+  let sql = 'CREATE TABLE patients(id int AUTO_INCREMENT, name VARCHAR(255), medication VARCHAR(255), PRIMARY KEY (id))';
+  db.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send("Patients table created!");
+  });
+});
+
+app.get('/addpatient', (req, res) => {
+  let name = "Evan Bradley"
+  let medication = "Consitpation Meds"
+  let post = {name: name, medication: medication}
+  let sql = "INSERT INTO patients SET ?";
+  db.query(sql, post, (err, result) =>{
+    if (err) throw err;
+    console.log("Role added!");
+    res.send("Patients added!");
+  });
+});
