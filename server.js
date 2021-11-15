@@ -63,95 +63,13 @@ app.use(auth(config)); // auth router attaches /login, /logout, and /callback ro
 
 const { requiresAuth } = require('express-openid-connect');
 
-app.use('/private/admin', function (request, response) {
-  if (request.oidc.isAuthenticated())
-  {
-    get_user_role(request.oidc.user["email"], function(err, user_role) {
-      if (user_role.length == 0){
-        return next();
-      }
-      else {
-        user_role = user_role[0].role;
-      }
-  
-      if (user_role == "admin") {
-        console.log("sending protected file " + request.url);
-        response.sendFile(__dirname + "/private/admin" + request.url);
-      }
-      else
-      {
-        return next();
-      }
-    });
-  }
-  else
-  {
-    return next();
-  }
-});
-
-app.use('/private/doctor', function (request, response) {
-  if (request.oidc.isAuthenticated())
-  {
-    get_user_role(request.oidc.user["email"], function(err, user_role) {
-      if (user_role.length == 0){
-        return next();
-      }
-      else {
-        user_role = user_role[0].role;
-      }
-  
-      if (user_role == "practitioner") {
-        console.log("sending protected file " + request.url);
-        response.sendFile(__dirname + "/private/doctor" + request.url);
-      }
-      else
-      {
-        return next();
-      }
-    });
-  }
-  else
-  {
-    return next();
-  }
-});
-
-app.use('/private/patient', function (request, response, next) {
-  if (request.oidc.isAuthenticated())
-  {
-    get_user_role(request.oidc.user["email"], function(err, user_role) {
-      console.log("user role inside of private-patient is " + user_role);
-      if (user_role.length == 0){
-        return next();
-      }
-      else {
-        user_role = user_role[0].role;
-      }
-  
-      if (user_role == "patient") {
-        console.log("sending protected file " + request.url);
-        response.sendFile(__dirname + request.url);
-      }
-      else
-      {
-        return next();
-      }
-    });
-  }
-  else
-  {
-    return next();
-  }
-});
-
 // listen for requests
 const listener = app.listen(process.env.PORT || 80, () => {
   console.log("[LOG] App is listening on port " + listener.address().port);
 });
 
 app.get("/", function (request, response) {
-  console.log(request.oidc.isAuthenticated());
+  console.log("REQUEST - /");
   if (request.oidc.isAuthenticated())
   {
 
@@ -182,6 +100,90 @@ app.get("/", function (request, response) {
   else
   {
     response.redirect('/login');
+  }
+});
+
+app.get('/private/admin/*', function (request, response) {
+  console.log("REQUEST - /private/admin");
+  if (request.oidc.isAuthenticated())
+  {
+    get_user_role(request.oidc.user["email"], function(err, user_role) {
+      if (user_role.length == 0){
+        return next();
+      }
+      else {
+        user_role = user_role[0].role;
+      }
+  
+      if (user_role == "admin") {
+        console.log("sending protected file " + request.url);
+        response.sendFile(__dirname + "/private/admin" + request.url);
+      }
+      else
+      {
+        response.send("ACCESS DENIED");
+      }
+    });
+  }
+  else
+  {
+    response.send("ACCESS DENIED");
+  }
+});
+
+app.get('/private/doctor/*', function (request, response) {
+  console.log("REQUEST - /private/doctor");
+  if (request.oidc.isAuthenticated())
+  {
+    get_user_role(request.oidc.user["email"], function(err, user_role) {
+      if (user_role.length == 0){
+        return next();
+      }
+      else {
+        user_role = user_role[0].role;
+      }
+  
+      if (user_role == "practitioner") {
+        console.log("sending protected file " + request.url);
+        response.sendFile(__dirname + "/private/doctor" + request.url);
+      }
+      else
+      {
+        response.send("ACCESS DENIED");
+      }
+    });
+  }
+  else
+  {
+    response.send("ACCESS DENIED");
+  }
+});
+
+app.get('/private/patient/*', function (request, response, next) {
+  console.log("REQUEST - /private/patient");
+  if (request.oidc.isAuthenticated())
+  {
+    get_user_role(request.oidc.user["email"], function(err, user_role) {
+      if (user_role.length == 0){
+        return next();
+      }
+      else {
+        user_role = user_role[0].role;
+      }
+  
+      if (user_role == "patient") {
+        console.log("sending protected file " + request.url);
+        response.sendFile(__dirname + request.url);
+      }
+      else
+      {
+        response.send("ACCESS DENIED");
+      }
+    });
+  }
+  else
+  {
+    response.send("ACCESS DENIED");
   }
 });
 

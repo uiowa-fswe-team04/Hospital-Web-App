@@ -10,8 +10,8 @@ document.getElementById('home_bar').addEventListener('click', function(){
   window.location.href =("/private/admin/landing_page.html")
 });
 
-document.getElementById('patient_bar').addEventListener('click', function(){
-  window.location.href =("/private/admin/patients_page.html")
+document.getElementById('doctor_bar').addEventListener('click', function(){
+  window.location.href =("/private/admin/doctors_page.html")
 });
 
 document.getElementById('labs_bar').addEventListener('click', function(){
