@@ -256,7 +256,7 @@ app.get('/del_doctor_users', (req, res) => {
 
 // Create patients table
 app.get('/createpatienttable', (req, res) => {
-  let sql = 'CREATE TABLE patients(id int AUTO_INCREMENT, name VARCHAR(255), medication VARCHAR(255), PRIMARY KEY (id))';
+  let sql = 'CREATE TABLE patients(id int AUTO_INCREMENT, name VARCHAR(255), medication VARCHAR(255), notes VARCHAR(255), PRIMARY KEY (id))';
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
@@ -265,13 +265,22 @@ app.get('/createpatienttable', (req, res) => {
 });
 
 app.get('/addpatient', (req, res) => {
-  let name = "Evan Bradley"
-  let medication = "Consitpation Meds"
-  let post = {name: name, medication: medication}
+  let name = "Bryce"
+  let medication = "Advil"
+  let notes = "He has tummy ache"
+  let post = {name: name, medication: medication, notes: notes}
   let sql = "INSERT INTO patients SET ?";
   db.query(sql, post, (err, result) =>{
     if (err) throw err;
-    console.log("Role added!");
     res.send("Patients added!");
+  });
+});
+
+app.get('/get_patient_list', (req, res) => {
+  let sql = "SELECT * FROM patients";
+  db.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send(result);
   });
 });
