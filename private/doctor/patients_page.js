@@ -6,10 +6,6 @@ document.getElementById('sign_out_button').addEventListener('click', function() 
   document.location.replace(logout_route);
 });
 
-document.getElementById('test').addEventListener('click', function() {
-  getPatients();
-});
-
 document.getElementById('home_bar').addEventListener('click', function(){
     window.location.replace("landing_page.html")
 });
