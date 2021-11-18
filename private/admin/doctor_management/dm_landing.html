@@ -20,6 +20,7 @@
             .topnav {
               overflow: hidden;
               background-color: #333;
+              margin: 0.5rem;
             }
             
             .topnav a {
@@ -39,6 +40,18 @@
             .topnav a.active {
               background-color: #04AA6D;
               color: white;
+            }
+
+            .btn-primary {
+                color: white;
+                background-color: #04AA6D;
+                border-color: #04AA6D
+            }
+
+            .btn-primary:hover {
+                color: white;
+                background-color: #04AA6D;
+                border-color: #04AA6D
             }
 
             :root {
@@ -74,12 +87,15 @@
                 box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
             }
         </style>
+    </header>
+
+    <body>
         <div class="topnav">
             <a id = "home_bar" class="active">Home</a>
             <a id = "doctor_bar">Manage Doctors</a>
+            <button class="float-end btn-primary" id="sign_out_button">SIGN OUT</button>
         </div>
-        <button id="sign_out_button">SIGN OUT</button>
-    </header>
+    </body>
 
     <main role="main">
       <section class="jumbotron text-center">
