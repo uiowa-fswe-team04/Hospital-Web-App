@@ -284,3 +284,23 @@ app.get('/get_patient_list', (req, res) => {
     res.send(result);
   });
 });
+
+// Create perscription in db
+app.get('/create_perscription', (req, res) => {
+  let patient = req.query.patient;
+  let medication = req.query.medication;
+  let notes = req.query.notes;
+  console.log(req.query.patient);
+  add_perscription(patient, medication, notes);
+  res.send(200);
+});
+
+function add_perscription(patient, medication, notes)
+{
+  let post = {name: patient, medication: medication, notes: notes}
+  let sql = "INSERT INTO patients SET ?";
+  let query = db.query(sql, post, (err, result) =>{
+    if (err) throw err;
+    console.log("Role added!");
+  });
+}
