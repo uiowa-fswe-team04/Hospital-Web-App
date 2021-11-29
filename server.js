@@ -184,6 +184,7 @@ async function get_users(user_role, callback)
     callback (null, result);
   });
 }
+
 // compare user/password
 async function check_cred(email, password, callback)
 {
