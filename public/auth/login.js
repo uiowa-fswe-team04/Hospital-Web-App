@@ -7,19 +7,31 @@ document.getElementById("create_account_div").innerHTML = "<a href=\"" + createA
 document.getElementById('sign_in_button').addEventListener('click', function() {
   var email = document.getElementById('inputEmail').value;
   var password = document.getElementById('inputPassword').value;
-  
-  const XML_req_hunt = new XMLHttpRequest();
+
+  let login = new FormData();
+  login.append("email", email);
+  login.append("password", password);
+
+  const XML_req_login = new XMLHttpRequest();
   // successful data submission
-  XML_req_hunt.addEventListener('load', function( event ) {
-      alert('Logged in');
+  XML_req_login.addEventListener('load', function( event ) {
+
+    // login successful, store user/pass as cookies for future requests
+    document.cookie = "email=" + email + ";path=/";
+    document.cookie = "password=" + password + ";path=/";
+
+    // attempt to switch to landing page of appropriate user role
+    window.location.replace(XML_req_login.responseText);
+
   });
   // error
-  XML_req_hunt.addEventListener(' error', function( event ) {
+  XML_req_login.addEventListener(' error', function( event ) {
       alert('Something went wrong. Not logged in');
   });
   // set up POST request
   var host = location.hostname;
-  var url = 'http://' + host + '/';
-  XML_req_hunt.open('POST', url);
-  XML_req_hunt.send(login);
+  var url = 'http://' + host + '/login';
+  console.log(url);
+  XML_req_login.open('POST', url);
+  XML_req_login.send(login);
 });

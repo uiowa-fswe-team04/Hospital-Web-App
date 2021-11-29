@@ -4,6 +4,8 @@ const app = express();
 const multer = require('multer');
 
 const req_parse = multer();
+const cookie_parse = require("cookie-parser");
+app.use(cookie_parse());
 
 // connection with DB
 const db = mysql.createConnection({
@@ -57,29 +59,23 @@ const listener = app.listen(process.env.PORT || 80, () => {
   console.log("[LOG] App is listening on port " + listener.address().port);
 });
 
-app.get("/", req_parse.none(), function (request, response) {
-  console.log("REQUEST - /");
-  let user_email = req.body['email'];
-  let user_password = req.body['password'];
+app.post("/login", req_parse.none(), function (request, response) {
+  console.log("REQUEST - /login");
+  let user_email = request.body['email'];
+  let user_password = request.body['password'];
 
-  check_cred(user_email, password, function(err, user_role) {
-    console.log(user_role);
-    if (user_role.length == 0){
-      add_user_role(request.query.email, "patient");
-      user_role = "patient";
-    } else {
-      user_role = user_role[0].role;
-    }
+  check_cred(user_email, user_password, function(err, user_role) {
+    user_role = user_role[0]["role"];
 
     if (user_role == "practitioner") {
       console.log("redirecting to doctor page");
-      response.redirect("/private/doctor/landing_page.html");
+      response.end("/private/doctor/landing_page.html");
     } else if (user_role == "admin") {
       console.log("redirecting to admin page");
-      response.redirect("/private/admin/landing_page.html");
+      response.end("/private/admin/landing_page.html");
     } else if (user_role == "patient") {
       console.log("redirecting to patient page");
-      response.redirect("/private/patient/landing_page.html");
+      response.end("/private/patient/landing_page.html");
     } else {
       response.redirect('/logout');
     }
@@ -92,86 +88,62 @@ app.get("/public/auth/*", function (request, response) {
 
 app.get('/private/admin/*', function (request, response) {
   console.log("REQUEST - /private/admin");
-  if (true) // add auth here
-  {
-    get_user_role(request.query.email, function(err, user_role) {
-      if (user_role.length == 0){
-        return next();
-      }
-      else {
-        user_role = user_role[0].role;
-      }
-  
-      if (user_role == "admin") {
-        console.log("sending protected file " + request.url);
-        response.sendFile(__dirname + request.url);
-      }
-      else
-      {
-        response.send("ACCESS DENIED");
-      }
-    });
-  }
-  else
-  {
-    response.send("ACCESS DENIED");
-  }
+  let user_email = request.body['email'];
+  let user_password = request.body['password'];
+
+  check_cred(user_email, user_password, function(err, user_role) {
+    user_role = user_role[0]["role"];
+
+    if (user_role == "admin") {
+      console.log("sending protected file " + request.url);
+      response.sendFile(__dirname + request.url);
+    }
+    else
+    {
+      response.send("ACCESS DENIED");
+    }
+  });
 });
 
 app.get('/private/doctor/*', function (request, response) {
   console.log("REQUEST - /private/doctor");
-  if (true) // add auth here
-  {
-    get_user_role(request.query.email, function(err, user_role) {
-      if (user_role.length == 0){
-        return next();
-      }
-      else {
-        user_role = user_role[0].role;
-      }
-  
-      if (user_role == "practitioner") {
-        console.log("sending protected file " + request.url);
-        response.sendFile(__dirname + request.url);
-      }
-      else
-      {
-        response.send("ACCESS DENIED");
-      }
-    });
-  }
-  else
-  {
-    response.send("ACCESS DENIED");
-  }
+  let user_email = request.body['email'];
+  let user_password = request.body['password'];
+
+  check_cred(user_email, user_password, function(err, user_role) {
+    user_role = user_role[0]["role"];
+
+    if (user_role == "doctor") {
+      console.log("sending protected file " + request.url);
+      response.sendFile(__dirname + request.url);
+    }
+    else
+    {
+      response.send("ACCESS DENIED");
+    }
+  });
 });
 
 app.get('/private/patient/*', function (request, response, next) {
   console.log("REQUEST - /private/patient");
-  if (true) // add auth here
-  {
-    get_user_role(request.query.email, function(err, user_role) {
-      if (user_role.length == 0){
-        return next();
-      }
-      else {
-        user_role = user_role[0].role;
-      }
-  
-      if (user_role == "patient") {
-        console.log("sending protected file " + request.url);
-        response.sendFile(__dirname + request.url);
-      }
-      else
-      {
-        response.send("ACCESS DENIED");
-      }
-    });
-  }
-  else
-  {
-    response.send("ACCESS DENIED");
-  }
+  let user_email = request.cookies.email;
+  let user_password = request.cookies.password;
+
+  console.log(user_email);
+  console.log(user_password);
+
+  check_cred(user_email, user_password, function(err, user_role) {
+    user_role = user_role[0]["role"];
+
+    if (user_role == "patient") {
+      console.log("sending protected file " + request.url);
+      response.sendFile(__dirname + request.url);
+    }
+    else
+    {
+      response.send("ACCESS DENIED");
+    }
+  });
 });
 
 
@@ -215,7 +187,7 @@ async function get_users(user_role, callback)
 // compare user/password
 async function check_cred(email, password, callback)
 {
-  let sql = "SELECT role FROM user_table WHERE password = " + password + " AND email = " + email;
+  let sql = "SELECT role FROM user_table WHERE password = \"" + password + "\" AND email = \"" + email + "\"";
   db.query(sql, (err, result) => {
     if (err) throw err;
     callback (null, result);
