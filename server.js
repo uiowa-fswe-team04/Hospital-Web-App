@@ -88,8 +88,8 @@ app.get("/public/auth/*", function (request, response) {
 
 app.get('/private/admin/*', function (request, response) {
   console.log("REQUEST - /private/admin");
-  let user_email = request.body['email'];
-  let user_password = request.body['password'];
+  let user_email = request.cookies.email;
+  let user_password = request.cookies.password;
 
   check_cred(user_email, user_password, function(err, user_role) {
     user_role = user_role[0]["role"];
@@ -107,8 +107,8 @@ app.get('/private/admin/*', function (request, response) {
 
 app.get('/private/doctor/*', function (request, response) {
   console.log("REQUEST - /private/doctor");
-  let user_email = request.body['email'];
-  let user_password = request.body['password'];
+  let user_email = request.cookies.email;
+  let user_password = request.cookies.password;
 
   check_cred(user_email, user_password, function(err, user_role) {
     user_role = user_role[0]["role"];
