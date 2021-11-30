@@ -117,7 +117,7 @@ app.get('/private/doctor/*', function (request, response) {
   check_cred(user_email, user_password, function(err, user_role) {
     user_role = user_role[0]["role"];
 
-    if (user_role == "doctor") {
+    if (user_role == "practitioner") {
       console.log("sending protected file " + request.url);
       response.sendFile(__dirname + request.url);
     }
@@ -153,7 +153,7 @@ app.get('/private/patient/*', function (request, response, next) {
 
 // Create roles table
 app.get('/createuserroletable', (req, res) => {
-  let sql = 'CREATE TABLE user_table(email VARCHAR(255), role VARCHAR(255), password VARCHAR(255))';
+  let sql = 'CREATE TABLE user_table(id int AUTO_INCREMENT, email VARCHAR(255), role VARCHAR(255), password VARCHAR(255))';
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
@@ -234,30 +234,30 @@ app.get('/del_doctor_users', (req, res) => {
 });
 
 
-// Create patients table
+// Create prescriptions table
 app.get('/createpatienttable', (req, res) => {
-  let sql = 'CREATE TABLE patients(id int AUTO_INCREMENT, name VARCHAR(255), medication VARCHAR(255), notes VARCHAR(255), PRIMARY KEY (id))';
+  let sql = 'CREATE TABLE prescriptions(id int AUTO_INCREMENT, name VARCHAR(255), medication VARCHAR(255), notes VARCHAR(255), PRIMARY KEY (id))';
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    res.send("Patients table created!");
+    res.send("prescriptions table created!");
   });
 });
 
-app.get('/addpatient', (req, res) => {
+app.get('/addprescription', (req, res) => {
   let name = "Bryce"
   let medication = "Advil"
   let notes = "He has tummy ache"
   let post = {name: name, medication: medication, notes: notes}
-  let sql = "INSERT INTO patients SET ?";
+  let sql = "INSERT INTO prescriptions SET ?";
   db.query(sql, post, (err, result) =>{
     if (err) throw err;
-    res.send("Patients added!");
+    res.send("prescriptions added!");
   });
 });
 
-app.get('/get_patient_list', (req, res) => {
-  let sql = "SELECT * FROM patients";
+app.get('/get_prescription_list', (req, res) => {
+  let sql = "SELECT * FROM prescriptions";
   db.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
@@ -266,21 +266,21 @@ app.get('/get_patient_list', (req, res) => {
 });
 
 // Create perscription in db
-app.get('/create_perscription', (req, res) => {
+app.get('/create_prescription', (req, res) => {
   let patient = req.query.patient;
   let medication = req.query.medication;
   let notes = req.query.notes;
   console.log(req.query.patient);
-  add_perscription(patient, medication, notes);
+  add_prescription(patient, medication, notes);
   res.send(200);
 });
 
-function add_perscription(patient, medication, notes)
+function add_prescription(patient, medication, notes)
 {
   let post = {name: patient, medication: medication, notes: notes}
-  let sql = "INSERT INTO patients SET ?";
+  let sql = "INSERT INTO prescriptions SET ?";
   let query = db.query(sql, post, (err, result) =>{
     if (err) throw err;
-    console.log("Role added!");
+    console.log("Prescription added!");
   });
 }

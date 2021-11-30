@@ -25,9 +25,9 @@ document.getElementById('notification_bar').addEventListener('click', function()
 
 function getPatients()
 {
-  // makes GET request to populate drop down menu
+  // makes GET request to populate table
   var host = location.hostname;
-  var url = 'http://' + host + '/get_patient_list';
+  var url = 'http://' + host + '/get_prescription_list';
   console.log(url);
   // http get request
   var xmlHttp = new XMLHttpRequest();
@@ -35,11 +35,8 @@ function getPatients()
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
           try {
             var patients = JSON.parse(xmlHttp.responseText);
-          } catch (err) {
-            // throw an error
-           console.log(err);
-          }
-          var numPatients = patients.length;
+
+            var numPatients = patients.length;
           for (var i = 0; i < numPatients; i++) {
             var table = document.getElementById("tableData");
             var row = table.insertRow(i+1);
@@ -51,8 +48,10 @@ function getPatients()
             cell2.innerHTML = patients[i]["medication"];
             cell3.innerHTML = patients[i]["notes"];
           }
-          
-          
+          } catch (err) {
+            // throw an error
+           console.log(err);
+          }               
   }
   xmlHttp.open("GET", url, true);
   xmlHttp.send(null);

@@ -22,5 +22,9 @@
   "keywords": [
     "node",
     "express"
-  ]
+  ],
+  "devDependencies": {
+    "db-migrate": "^0.11.13",
+    "db-migrate-mysql": "^2.2.0"
+  }
 }
