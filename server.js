@@ -82,6 +82,10 @@ app.post("/login", req_parse.none(), function (request, response) {
   });
 });
 
+app.get("/", function (request, response) {
+  response.redirect('/public/auth/login.html');
+});
+
 app.get("/public/auth/*", function (request, response) {
   response.sendFile(__dirname + request.url);
 });
@@ -200,7 +204,7 @@ app.post('/create_patient_user', req_parse.none(), (req, res) => {
   let user_email = req.body['email'];
   let user_password = req.body['password'];
   add_user_role(user_email, "patient", user_password);
-  res.redirect('/private/patient/landing_page.html');
+  res.end("/private/patient/landing_page.html");
 });
 
 // Create doctor in db

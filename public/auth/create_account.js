@@ -13,18 +13,23 @@ document.getElementById('create_account_button').addEventListener('click', funct
   login.append("email", email);
   login.append("password", password);
   
-  const XML_req_hunt = new XMLHttpRequest();
+  const XML_req_create = new XMLHttpRequest();
   // successful data submission
-  XML_req_hunt.addEventListener('load', function( event ) {
-      alert('Account created');
+  XML_req_create.addEventListener('load', function( event ) {
+    // login successful, store user/pass as cookies for future requests
+    document.cookie = "email=" + email + ";path=/";
+    document.cookie = "password=" + password + ";path=/";
+
+    // attempt to switch to landing page of appropriate user role
+    window.location.replace(XML_req_create.responseText);
   });
   // error
-  XML_req_hunt.addEventListener(' error', function( event ) {
+  XML_req_create.addEventListener(' error', function( event ) {
       alert('Something went wrong. Account not created');
   });
   // set up POST request
   var host = location.hostname;
   var url = 'http://' + host + '/create_patient_user';
-  XML_req_hunt.open('POST', url);
-  XML_req_hunt.send(login);
+  XML_req_create.open('POST', url);
+  XML_req_create.send(login);
 });
