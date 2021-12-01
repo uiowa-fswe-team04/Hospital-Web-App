@@ -189,6 +189,17 @@ async function get_users(user_role, callback)
   });
 }
 
+// get all users names with specified role
+async function get_users_names(user_role, callback)
+{
+  let sql = "SELECT name FROM user_table WHERE role = ?";
+  let post = user_role;
+  db.query(sql, post, (err, result) => {
+    if (err) throw err;
+    callback (null, result);
+  });
+}
+
 // compare user/password
 async function check_cred(email, password, callback)
 {
@@ -222,6 +233,15 @@ app.get('/get_doctor_users', (req, res) => {
     res.send(user_emails);
   });
 });
+
+// Get all patient accounts in db
+app.get('/request_patients', (req, res) => {
+  get_users("patient", function(err, user_emails) {
+    console.log(user_emails);
+    res.send(user_emails);
+  });
+});
+
 // Delete specified doctor account in db
 app.get('/del_doctor_users', (req, res) => {
   let user_email = req.query.email;
