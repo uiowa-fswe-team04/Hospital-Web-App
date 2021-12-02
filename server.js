@@ -237,9 +237,9 @@ app.get('/get_doctor_users', (req, res) => {
 
 // Get all patient accounts in db
 app.get('/request_patients', (req, res) => {
-  get_users("patient", function(err, user_emails) {
-    console.log(user_emails);
-    res.send(user_emails);
+  get_users_names("patient", function(err, user_names) {
+    console.log(user_names);
+    res.send(user_names);
   });
 });
 

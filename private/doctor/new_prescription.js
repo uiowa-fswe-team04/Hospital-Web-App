@@ -40,7 +40,7 @@ function getPatients()
           
           select = document.getElementById('patients');
           for (const pat in result_arr){
-            var name = result_arr[pat]['email']
+            var name = result_arr[pat]['name']
             var opt = document.createElement('option');
             opt.value = name;
             opt.innerHTML = name;
