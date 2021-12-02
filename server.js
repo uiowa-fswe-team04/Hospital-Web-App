@@ -160,9 +160,9 @@ app.get('/createuserroletable', (req, res) => {
     res.send("Roles table created!");
   });
 });
-function add_user_role(user_email, user_role, user_password)
+function add_user_role(user_email, user_role, user_password, name)
 {
-  let post = {email: user_email, role: user_role, password: user_password}
+  let post = {email: user_email, role: user_role, password: user_password, name: name}
   let sql = "INSERT INTO user_table SET ?";
   let query = db.query(sql, post, (err, result) =>{
     if (err) throw err;
@@ -214,7 +214,8 @@ async function check_cred(email, password, callback)
 app.post('/create_patient_user', req_parse.none(), (req, res) => {
   let user_email = req.body['email'];
   let user_password = req.body['password'];
-  add_user_role(user_email, "patient", user_password);
+  let name = req.body['name']
+  add_user_role(user_email, "patient", user_password, name);
   res.end("/private/patient/landing_page.html");
 });
 

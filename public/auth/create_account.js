@@ -3,6 +3,7 @@ document.getElementById('create_account_button').addEventListener('click', funct
   var email = document.getElementById('inputEmail').value;
   var password = document.getElementById('inputPasswordOrig').value;
   var password_confirm = document.getElementById('inputPasswordConfirm').value;
+  var name = document.getElementById('inputName').value;
 
   if (password != password_confirm) {
       alert("Passwords must match");
@@ -12,6 +13,7 @@ document.getElementById('create_account_button').addEventListener('click', funct
   let login = new FormData();
   login.append("email", email);
   login.append("password", password);
+  login.append("name", name);
   
   const XML_req_create = new XMLHttpRequest();
   // successful data submission
