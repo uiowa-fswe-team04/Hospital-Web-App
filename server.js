@@ -296,6 +296,13 @@ app.get('/create_prescription', (req, res) => {
   res.send(200);
 });
 
+app.get('/delete_prescription', (req, res) => {
+  let id = req.query.id;
+  console.log(req.query.id);
+  remove_prescription(id);
+  res.send(200);
+});
+
 function add_prescription(patient, medication, notes)
 {
   let post = {name: patient, medication: medication, notes: notes}
@@ -303,5 +310,14 @@ function add_prescription(patient, medication, notes)
   let query = db.query(sql, post, (err, result) =>{
     if (err) throw err;
     console.log("Prescription added!");
+  });
+}
+
+function remove_prescription(id)
+{
+  let sql = "DELETE FROM prescriptions WHERE id = ?";
+  let post = id;
+  db.query(sql, post, (err) => {
+    if (err) throw err;
   });
 }
