@@ -26,9 +26,16 @@
     background-color: #04AA6D;
     color: white;
   }
+  table, th, td {
+    border: 1px solid black;
+  }
+
+  table {
+    width: 100%;
+  }
   </style>
   </head>
-  <body>
+  <body onload="getAppointments()">
   
   <div class="topnav">
     <a id = "home_bar">Home</a>
@@ -36,7 +43,20 @@
     <a id = "labs_bar">Test Results</a>
     <a id = "notification_bar">Billing / Insurance</a>
   </div>
-  <script type="module" src="patients_page.js"></script>
   <p>Appointments Page!</p>
   <button id="sign_out_button">SIGN OUT</button>
+  <script type="module" src="patients_page.js"></script>
+  <p>
+    <a id="create_prescription_button" href="./new_appointment.html" class="btn btn-primary">New Appointment</a>
+  </p>
+  <table id="tableData" class="table table-fixed">
+    <thead>
+      <tr>
+        <th>Doctor Name</th>
+        <th>Appointment Time</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody class="tbody" >
+    </tbody>
 </html>
