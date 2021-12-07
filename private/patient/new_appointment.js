@@ -1,21 +1,35 @@
 // Since this script is declared a module, need to add event listener on this end instead of onclick
 document.getElementById('create_appointment_button').addEventListener('click', function() {
     decodeURIComponent(document.cookie);
-    var doctorName = document.getElementById('doctor').value;
+    var doctorName = document.getElementById('doctors').value;
     var appointmentTime = document.getElementById('appointmentTime').value;
     var inputNotes = document.getElementById('inputNotes').value;
     var email;
-    var cookie_name = "email="
-    cook = decoded_cookie.split(";");
-    for(var i=0; i<cook.length ; i++){
-      if (cookie_arr[i].substring(0, cookie_name.length) == cookie_name){
-        email = cookie_arr[i].substring(cookie_name.length, cookie_arr[i].length);
-        console.log(email);
-        break;
-      }
-    }
+     // Get user name
+  var cookie_to_use = "";
+  var cookie_name = "email=";
+  var raw_cookie = decodeURIComponent(document.cookie);
+  var cookie_arr = raw_cookie.split(";");
+  for (var i = 0; i < cookie_arr.length; i++)
+
+              {
+                // Checks if begins with space and removes
+                if (cookie_arr[i][0] == " ") {
+                  cookie_arr[i] = cookie_arr[i].substring(1);
+                }
+                if (cookie_arr[i].substring(0, cookie_name.length) == cookie_name)
+
+                {
+
+                  cookie_to_use = cookie_arr[i].substring(cookie_name.length, cookie_arr[i].length);
+
+break;
+
+                }
+
+}
     // use this to find user's name
-    var patientName = email;
+    var patientName = cookie_to_use;
     
     const XML_req_hunt = new XMLHttpRequest();
     // successful data submission
@@ -38,7 +52,7 @@ function getDoctors()
 { 
   // makes GET request to populate drop down menu
   var host = location.hostname;
-  var url = 'http://' + host + '/get_doctor_users';
+    var url = 'http://' + host + '/get_doctor_users';
   
   // http get request
   var xmlHttp = new XMLHttpRequest();
@@ -46,6 +60,7 @@ function getDoctors()
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
           try {
             var result_arr = JSON.parse(xmlHttp.responseText);
+            console.log(result_arr);
           } catch (err) {
             // throw an error
            console.log(err);
@@ -53,7 +68,7 @@ function getDoctors()
           
           select = document.getElementById('doctors');
           for (const pat in result_arr){
-            var name = result_arr[pat]['name']
+            var name = result_arr[pat]['email']
             var opt = document.createElement('option');
             opt.value = name;
             opt.innerHTML = name;

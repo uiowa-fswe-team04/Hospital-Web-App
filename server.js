@@ -238,12 +238,13 @@ app.get('/create_doctor_user', (req, res) => {
   let user_email = req.query.email;
   let user_password = req.query.password;
   console.log(req.query.email);
-  add_user_role(user_email, "doctor", user_password);
+  add_user_role(user_email, "practitioner", user_password);
   res.send(200);
 });
 // Get all doctor accounts in db
 app.get('/get_doctor_users', (req, res) => {
-  get_users("doctor", function(err, user_emails) {
+  console.log("DOCTORS REQUESTED")
+  get_users("practitioner", function(err, user_emails) {
     console.log(user_emails);
     res.send(user_emails);
   });

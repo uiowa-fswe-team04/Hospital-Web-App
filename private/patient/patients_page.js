@@ -35,7 +35,7 @@ function getAppointments()
           try {
             var appointment = JSON.parse(xmlHttp.responseText);
 
-            var numPatients = patients.length;
+            var numPatients = appointment.length;
           for (var i = 0; i < numPatients; i++) {
             var table = document.getElementById("tableData");
             var row = table.insertRow(i+1);
