@@ -1,9 +1,21 @@
 // Since this script is declared a module, need to add event listener on this end instead of onclick
 document.getElementById('create_appointment_button').addEventListener('click', function() {
+    decodeURIComponent(document.cookie);
     var doctorName = document.getElementById('doctor').value;
     var appointmentTime = document.getElementById('appointmentTime').value;
     var inputNotes = document.getElementById('inputNotes').value;
-    var patientName = "Bryce"
+    var email;
+    var cookie_name = "email="
+    cook = decoded_cookie.split(";");
+    for(var i=0; i<cook.length ; i++){
+      if (cookie_arr[i].substring(0, cookie_name.length) == cookie_name){
+        email = cookie_arr[i].substring(cookie_name.length, cookie_arr[i].length);
+        console.log(email);
+        break;
+      }
+    }
+    // use this to find user's name
+    var patientName = email;
     
     const XML_req_hunt = new XMLHttpRequest();
     // successful data submission
