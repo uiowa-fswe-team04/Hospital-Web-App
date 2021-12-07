@@ -1,3 +1,11 @@
+document.getElementById('sign_out_button').addEventListener('click', function() {
+  // redirect to logout path
+  var host = location.hostname;
+  document.cookie = "email=expireme;path=/;expires=Tue, 14 Aug 1945 12:00:00 UTC";
+  document.cookie = "password=expireme;path=/;expires=Tue, 14 Aug 1945 12:00:00 UTC";
+  document.location.replace('http://' + host + '/public/auth/login.html');
+});
+
 document.getElementById('home_bar').addEventListener('click', function(){
     window.location.replace("landing_page.html")
 });
