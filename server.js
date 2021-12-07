@@ -65,6 +65,7 @@ app.post("/login", req_parse.none(), function (request, response) {
   let user_password = request.body['password'];
 
   check_cred(user_email, user_password, function(err, user_role) {
+    if (user_role[0] == undefined) { response.end(); return; }
     user_role = user_role[0]["role"];
 
     if (user_role == "practitioner") {
@@ -77,7 +78,7 @@ app.post("/login", req_parse.none(), function (request, response) {
       console.log("redirecting to patient page");
       response.end("/private/patient/landing_page.html");
     } else {
-      response.redirect('/logout');
+      response.end();
     }
   });
 });
@@ -92,10 +93,15 @@ app.get("/public/auth/*", function (request, response) {
 
 app.get('/private/admin/*', function (request, response) {
   console.log("REQUEST - /private/admin");
+
   let user_email = request.cookies.email;
   let user_password = request.cookies.password;
 
+  if (user_email == undefined || user_password == undefined) { response.send("ACCESS DENIED"); return; }
+  
+
   check_cred(user_email, user_password, function(err, user_role) {
+    if (user_role[0] == undefined) { response.end(); return; }
     user_role = user_role[0]["role"];
 
     if (user_role == "admin") {
@@ -111,10 +117,14 @@ app.get('/private/admin/*', function (request, response) {
 
 app.get('/private/doctor/*', function (request, response) {
   console.log("REQUEST - /private/doctor");
+
   let user_email = request.cookies.email;
   let user_password = request.cookies.password;
 
+  if (user_email == undefined || user_password == undefined) { response.send("ACCESS DENIED"); return; }
+
   check_cred(user_email, user_password, function(err, user_role) {
+    if (user_role[0] == undefined) { response.end(); return; }
     user_role = user_role[0]["role"];
 
     if (user_role == "practitioner") {
@@ -130,13 +140,17 @@ app.get('/private/doctor/*', function (request, response) {
 
 app.get('/private/patient/*', function (request, response, next) {
   console.log("REQUEST - /private/patient");
+
   let user_email = request.cookies.email;
   let user_password = request.cookies.password;
+
+  if (user_email == undefined || user_password == undefined) { response.send("ACCESS DENIED"); return; }
 
   console.log(user_email);
   console.log(user_password);
 
   check_cred(user_email, user_password, function(err, user_role) {
+    if (user_role[0] == undefined) { response.end(); return; }
     user_role = user_role[0]["role"];
 
     if (user_role == "patient") {
