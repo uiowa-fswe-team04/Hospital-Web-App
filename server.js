@@ -332,7 +332,7 @@ app.get('/createappointmenttable', (req, res) => {
   });
 });
 
-app.get('/get_appointment_list', (req, res) => {
+app.get('/get_appointments_list', (req, res) => {
   let sql = "SELECT * FROM appointments";
   db.query(sql, (err, result) => {
     if(err) throw err;
