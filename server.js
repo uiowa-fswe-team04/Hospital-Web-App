@@ -228,17 +228,17 @@ async function check_cred(email, password, callback)
 app.post('/create_patient_user', req_parse.none(), (req, res) => {
   let user_email = req.body['email'];
   let user_password = req.body['password'];
-  let name = req.body['name']
+  let name = req.body['name'];
   add_user_role(user_email, "patient", user_password, name);
   res.end("/private/patient/landing_page.html");
 });
 
 // Create doctor in db
-app.get('/create_doctor_user', (req, res) => {
-  let user_email = req.query.email;
-  let user_password = req.query.password;
-  console.log(req.query.email);
-  add_user_role(user_email, "practitioner", user_password);
+app.post('/create_doctor_user', req_parse.none(), (req, res) => {
+  let user_email = req.body['email'];
+  let user_password = req.body['password'];
+  let name = req.body['name'];
+  add_user_role(user_email, "practitioner", user_password, name);
   res.send(200);
 });
 // Get all doctor accounts in db
