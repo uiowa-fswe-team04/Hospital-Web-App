@@ -369,19 +369,19 @@ app.get('/get_appointments_list', (req, res) => {
 
 // Create appointment in db
 app.get('/create_appointment', (req, res) => {
-  let name = req.query.name;
+  let name = req.query.doctor;
   let time = req.query.time;
   let notes = req.query.notes;
   let patient = req.query.patient;
   console.log(req.query.patient);
-  add_prescription(name, time, notes, patient);
+  add_appointment(name, time, notes, patient);
   res.send(200);
 });
 
 function add_appointment(doctor, time, notes, patient)
 {
   let post = {name: doctor, time: time, notes: notes, patient: patient}
-  let sql = "INSERT INTO appointment SET ?";
+  let sql = "INSERT INTO appointments SET ?";
   let query = db.query(sql, post, (err, result) =>{
     if (err) throw err;
     console.log("Appointment added!");
