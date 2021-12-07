@@ -1,0 +1,58 @@
+<!--
+ Copyright 2021 brycejacobson
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Create Appointment</title>
+
+    <!-- Bootstrap core CSS and Bootstrap custom signin CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="signin.css" rel="stylesheet">
+  </head>
+
+  <body class="text-center" onload="getDoctors()">
+    <div class="form-signin">
+      <h1 class="h3 mb-3 font-weight-normal">Fill in Appointment details</h1>
+      <label for="patients">Choose a Doctor:</label>
+      <select name="doctors" id="doctors">
+      </select>
+      </div>
+      <label for="appointmentTime">Time</label>
+      <select name="appointmentTime" id="appointmentTime">
+        <option value="sevenAM">7:00 AM</option>
+        <option value="eightAM">8:00 AM</option>
+        <option value="nineAM">9:00 AM</option>
+        <option value="tenAM">10:00 AM</option>
+        <option value="elevanAM">11:00 AM</option>
+        <option value="noon">12:00 PM</option>
+        <option value="onePM">1:00 PM</option>
+        <option value="twoPM">2:00 PM</option>
+        <option value="threePM">3:00 PM</option>
+        <option value="fourPM">4:00 PM</option>
+        <option value="fivePM">5:00 PM</option>
+        <option value="sixPM">6:00 PM</option>
+        <option value="sevenPM">7:00 PM</option>
+      </select>
+
+      <label for="inputNotes" class="sr-only">Notes</label>
+      <input type="email" id="inputNotes" class="form-control" placeholder="Notes">
+      
+      <button class="btn btn-lg btn-primary btn-block" id="create_prescription_button">Create Appoointment</button>
+    </div>
+    <script src="new_appointment.js"></script>
+  </body>
+</html>

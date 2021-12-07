@@ -346,3 +346,43 @@ function remove_prescription(id)
     if (err) throw err;
   });
 }
+
+// Create appointment table
+app.get('/createappointmenttable', (req, res) => {
+  let sql = 'CREATE TABLE appointments(id int AUTO_INCREMENT, name VARCHAR(255), time VARCHAR(255), notes VARCHAR(255), patient VARCHAR(255), PRIMARY KEY (id))';
+  db.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send("prescriptions table created!");
+  });
+});
+
+app.get('/get_appointments_list', (req, res) => {
+  let sql = "SELECT * FROM appointments";
+  db.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send(result);
+  });
+});
+
+// Create appointment in db
+app.get('/create_appointment', (req, res) => {
+  let name = req.query.name;
+  let time = req.query.time;
+  let notes = req.query.notes;
+  let patient = req.query.patient;
+  console.log(req.query.patient);
+  add_prescription(name, time, notes, patient);
+  res.send(200);
+});
+
+function add_appointment(doctor, time, notes, patient)
+{
+  let post = {name: doctor, time: time, notes: notes, patient: patient}
+  let sql = "INSERT INTO appointment SET ?";
+  let query = db.query(sql, post, (err, result) =>{
+    if (err) throw err;
+    console.log("Appointment added!");
+  });
+}
