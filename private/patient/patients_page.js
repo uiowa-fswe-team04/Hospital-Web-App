@@ -78,3 +78,8 @@ function getAppointments()
   xmlHttp.send(null);
 
 }
+
+function newAppointment()
+{
+  window.location.replace("new_appointment.html")
+}

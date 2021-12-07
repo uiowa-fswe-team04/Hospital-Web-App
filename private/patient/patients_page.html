@@ -33,22 +33,24 @@
   table {
     width: 100%;
   }
+  .center {
+    text-align: center;
+  }
   </style>
   </head>
   <body onload="getAppointments()">
-  
+    <link rel="stylesheet" href="appointment.css">
   <div class="topnav">
     <a id = "home_bar">Home</a>
     <a id = "patient_bar" class="active">Appointments</a>
     <a id = "labs_bar">Test Results</a>
     <a id = "notification_bar">Prescriptions</a>
   </div>
-  <p>Appointments Page!</p>
   <button id="sign_out_button">SIGN OUT</button>
+  <div class="center">
+  <button class="button" onclick="newAppointment()"><span>New Appointment</span></button>
+</div>
   
-  <p>
-    <a id="create_prescription_button" href="./new_appointment.html" class="btn btn-primary">New Appointment</a>
-  </p>
   <table id="tableData" class="table table-fixed">
     <thead>
       <tr>
