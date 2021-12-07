@@ -37,6 +37,7 @@ function getAppointments()
 
             var numPatients = patients.length;
           for (var i = 0; i < numPatients; i++) {
+            //if(userName == appointment[i]["name"]){
             var table = document.getElementById("tableData");
             var row = table.insertRow(i+1);
             var cell1 = row.insertCell(0);
@@ -46,6 +47,7 @@ function getAppointments()
             cell1.innerHTML = appointment[i]["patient"];
             cell2.innerHTML = appointment[i]["time"];
             cell3.innerHTML = appointment[i]["notes"];
+            //}
           }
           } catch (err) {
             // throw an error
