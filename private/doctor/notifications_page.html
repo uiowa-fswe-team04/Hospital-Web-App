@@ -27,18 +27,18 @@
     color: white;
   }
 
-  table, th, td {
-    border: 1px solid black;
-  }
-
   table {
     width: 100%;
+  }
+
+  .center {
+    text-align: center;
   }
 
   </style>
   </head>
   <body onload="getAppointments()"></body>
-  
+  <link rel="stylesheet" href="appointment.css">
   <div class="topnav">
     <a id = "home_bar" href="#home">Home</a>
     <a id = "patient_bar" href="#patients">Prescriptions</a>
@@ -46,8 +46,6 @@
     <a id = "notification_bar" class="active" href="#about">Appointments</a>
     <a id="sign_out_button">SIGN OUT</a>
   </div>
-  
-  <p>Appointment Page</p>
 
   <table id="tableData" class="table table-fixed">
     <thead>
