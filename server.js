@@ -306,6 +306,15 @@ function add_prescription(patient, medication, notes)
   });
 }
 
+function remove_prescription(id)
+{
+  let sql = "DELETE FROM prescriptions WHERE id = ?";
+  let post = id;
+  db.query(sql, post, (err) => {
+    if (err) throw err;
+  });
+}
+
 // Create appointment table
 app.get('/createappointmenttable', (req, res) => {
   let sql = 'CREATE TABLE appointments(id int AUTO_INCREMENT, name VARCHAR(255), time VARCHAR(255), notes VARCHAR(255), patient VARCHAR(255), PRIMARY KEY (id))';
