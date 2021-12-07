@@ -26,17 +26,37 @@
     background-color: #04AA6D;
     color: white;
   }
-  </style>
-  </head>
-  <body>
+
+  table {
+    width: 100%;
+  }
+
+  .center {
+    text-align: center;
+  }
   
-  <div class="topnav">
-    <a id = "home_bar">Home</a>
-    <a id = "patient_bar">Appointments</a>
-    <a id = "labs_bar">Test Results</a>
-    <a id = "notification_bar" class="active">Billing / Insurance</a>
-  </div>
-  <script type="module" src="notifications_page.js"></script>
-  <p>BILLING PAGE</p>
+  </style>
+  <!--<link rel="stylesheet" href="doctor.css">-->
+  </head>
+  <body onload="getPatients()">
+  
+    <div class="topnav">
+      <a id = "home_bar">Home</a>
+      <a id = "patient_bar" class="active">Appointments</a>
+      <a id = "labs_bar">Test Results</a>
+      <a id = "notification_bar">Billing / Insurance</a>
+    </div>
   <button id="sign_out_button">SIGN OUT</button>
+  <table id="tableData" class="table table-fixed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Prescription</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody class="tbody" >
+    </tbody>
+  <script src="notifications_page.js">
+  </script>
 </html>

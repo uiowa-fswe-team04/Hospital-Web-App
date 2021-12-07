@@ -300,6 +300,17 @@ app.get('/get_prescription_list', (req, res) => {
   });
 });
 
+app.get('/get_prescription_list_patient', (req, res) => {
+  let patient = req.query.patient;
+  let sql = "SELECT * FROM prescriptions WHERE name = ?";
+  let post = patient;
+  db.query(sql, post, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send(result);
+  });
+});
+
 // Create perscription in db
 app.get('/create_prescription', (req, res) => {
   let patient = req.query.patient;
