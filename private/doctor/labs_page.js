@@ -13,3 +13,15 @@ document.getElementById('labs_bar').addEventListener('click', function(){
 document.getElementById('notification_bar').addEventListener('click', function(){
   window.location.replace("notifications_page.html")
 });
+
+document.getElementById('sign_out_button').addEventListener('click', function() {
+  // redirect to logout path
+  var host = location.hostname;
+  document.location.replace('http://' + host + '/public/auth/login.html');
+});
+
+document.getElementById('sign_out_button').addEventListener('click', function() {
+  // redirect to logout path
+  var host = location.hostname;
+  document.location.replace('http://' + host + '/public/auth/login.html');
+});

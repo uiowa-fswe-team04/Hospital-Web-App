@@ -1,9 +1,7 @@
-// Since this script is declared a module, need to add event listener on this end instead of onclick
 document.getElementById('sign_out_button').addEventListener('click', function() {
   // redirect to logout path
   var host = location.hostname;
-  var logout_route = 'http://' + host + '/logout';
-  document.location.replace(logout_route);
+  document.location.replace('http://' + host + '/public/auth/login.html');
 });
 
 document.getElementById('home_bar').addEventListener('click', function(){
@@ -43,10 +41,18 @@ function getPatients()
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
 
             cell1.innerHTML = patients[i]["name"];
             cell2.innerHTML = patients[i]["medication"];
             cell3.innerHTML = patients[i]["notes"];
+
+            var button = document.createElement('button');
+            button.innerHTML = 'Delete';
+            button.myParam = patients[i]["id"]
+            button.className = "button3"
+            button.addEventListener("click", removePrescription);
+            cell4.appendChild(button);
           }
           } catch (err) {
             // throw an error
@@ -56,4 +62,29 @@ function getPatients()
   xmlHttp.open("GET", url, true);
   xmlHttp.send(null);
 
+}
+
+function newPrescription()
+{
+  window.location.replace("new_prescription.html")
+}
+
+function removePrescription(evt) {
+  var id_delete = evt.currentTarget.myParam
+
+  const XML_req_hunt = new XMLHttpRequest();
+  // successful data submission
+  XML_req_hunt.addEventListener('load', function( event ) {
+      alert('Prescription deleted');
+      window.location.href = "/private/doctor/patients_page.html"
+  });
+  // error
+  XML_req_hunt.addEventListener(' error', function( event ) {
+      alert('Something went wrong');
+  });
+  // set up POST request
+  var host = location.hostname;
+  var url = 'http://' + host + '/delete_prescription?id=' + id_delete;
+  XML_req_hunt.open('GET', url);
+  XML_req_hunt.send(null);
 }
